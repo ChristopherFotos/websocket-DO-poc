@@ -12,6 +12,10 @@ app.get("/home", (req, res) => {
 
 app.listen(8080, () => console.log("Server started on port " + "8080"));
 
+// SOCKET
+
+let number = 0;
+
 const http = require("http");
 
 const socketServer = http.createServer((req, res) => {
@@ -44,10 +48,12 @@ const io = require("socket.io")(socketServer, {
 
 io.on("connection", (socket) => {
   console.log("Someone has connected");
-  socket.on("draw", (info) => {
-    console.log(info);
+  io.emit("connected", "someone connected");
 
-    io.emit("update", info);
+  socket.on("up", () => {
+    console.log("up");
+    number++;
+    io.emit("update", number);
   });
 });
 
