@@ -12,12 +12,43 @@ app.get("/home", (req, res) => {
 
 app.listen(8080, () => console.log("Server started on port " + "8080"));
 
-const socket = express();
-socket.use(cors());
-socket.use(express.static(resolve("../client")));
+const http = require("http");
 
-socket.get("/home", (req, res) => {
-  res.send("hello websocket");
+const socketServer = http.createServer((req, res) => {
+  const headers = {
+    "Access-Control-Allow-Origin": "*" /* @dev First, read about security */,
+    "Access-Control-Allow-Methods": "OPTIONS, POST, GET",
+    "Access-Control-Max-Age": 2592000, // 30 days
+    /** add other headers as per requirement */
+  };
+
+  if (req.method === "OPTIONS") {
+    res.writeHead(204, headers);
+    res.end();
+    return;
+  }
+
+  if (["GET", "POST"].indexOf(req.method) > -1) {
+    res.writeHead(200, headers);
+    res.end("Hello World");
+    return;
+  }
+
+  res.writeHead(405, headers);
+  res.end(`${req.method} is not allowed for the request.`);
 });
 
-socket.listen(8081, () => console.log("Server started on port " + "8081"));
+const io = require("socket.io")(socketServer, {
+  cors: { origin: "*" },
+});
+
+io.on("connection", (socket) => {
+  console.log("Someone has connected");
+  socket.on("draw", (info) => {
+    console.log(info);
+
+    io.emit("update", info);
+  });
+});
+
+socketServer.listen(8081, () => console.log("socket listening on 8081"));
