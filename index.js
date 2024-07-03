@@ -4,7 +4,7 @@ resolve = require("path").resolve;
 
 const app = express();
 app.use(cors());
-app.use(express.static(resolve("../client")));
+app.use(express.static(resolve("./public")));
 
 app.get("/home", (req, res) => {
   res.send("hello index");
