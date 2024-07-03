@@ -1,6 +1,6 @@
 console.log("aloha");
 
-const socket = io(`ws://${location.hostname}:8081`);
+const socket = io(`wss://${location.hostname}:8081`);
 
 console.log(`ws://${location.hostname}:8081`);
 
