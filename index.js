@@ -1,16 +1,16 @@
-const express = require("express");
-const cors = require("cors");
-resolve = require("path").resolve;
+// const express = require("express");
+// const cors = require("cors");
+// resolve = require("path").resolve;
 
-const app = express();
-app.use(cors());
-app.use(express.static(resolve("./public")));
+// const app = express();
+// app.use(cors());
+// app.use(express.static(resolve("./public")));
 
-app.get("/home", (req, res) => {
-  res.send("hello index");
-});
+// app.get("/home", (req, res) => {
+//   res.send("hello index");
+// });
 
-app.listen(8080, () => console.log("Server started on port " + "8080"));
+// app.listen(8080, () => console.log("Server started on port " + "8080"));
 
 // SOCKET
 
@@ -57,4 +57,4 @@ io.on("connection", (socket) => {
   });
 });
 
-socketServer.listen(8081, () => console.log("socket listening on 8081"));
+socketServer.listen(8080, () => console.log("socket listening on 8080"));
