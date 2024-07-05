@@ -9,10 +9,10 @@ btn.addEventListener("click", () => {
   ws.send("up");
 });
 
-ws.onmessage((event) => {
+ws.onmessage = (event) => {
   console.log(event.data);
   if (event.type === "update") count.innerText = event.data;
-});
+};
 
 /////////////
 
