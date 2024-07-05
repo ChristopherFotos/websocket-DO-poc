@@ -31,7 +31,7 @@
   const count = document.getElementById("count");
 
   btn.addEventListener("click", () => {
-    ws.send("up");
+    ws.send(JSON.stringify({ type: "up" }));
   });
 
   ws.onmessage = function (event) {
@@ -43,6 +43,7 @@
     external.textContent = data.external;
 
     console.log(event.data);
-    if (event.data.type === "update") count.innerText = event.data.number;
+
+    if (data.type && data.type === "update") count.innerText = data.number;
   };
 })();

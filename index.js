@@ -66,13 +66,19 @@ let number = 0;
 wss.on("connection", function (ws) {
   console.log("connected");
 
-  ws.on("message", (event) => {
-    console.log("stopping client interval");
-    if (event.type === "up") {
+  ws.on("message", (event, isBinary) => {
+    const stringEvent = event.toString();
+
+    console.log("*********** DATA: ", stringEvent);
+
+    const data = JSON.parse(stringEvent);
+
+    if (data.type === "up") {
       number++;
+      console.log("number", number);
     }
 
-    ws.send({ type: "update", number });
+    ws.send(JSON.stringify({ type: "update", number }));
   });
 });
 
