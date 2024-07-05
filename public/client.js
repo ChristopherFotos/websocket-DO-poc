@@ -27,6 +27,13 @@
   const protocol = window.location.protocol.includes("https") ? "wss" : "ws";
   const ws = new WebSocket(`${protocol}://${location.host}`);
 
+  const btn = document.getElementById("count-btn");
+  const count = document.getElementById("count");
+
+  btn.addEventListener("click", () => {
+    ws.send("up");
+  });
+
   ws.onmessage = function (event) {
     const data = JSON.parse(event.data);
 
@@ -34,5 +41,8 @@
     heapTotal.textContent = data.heapTotal;
     heapUsed.textContent = data.heapUsed;
     external.textContent = data.external;
+
+    console.log(event.data);
+    if (event.data.type === "update") count.innerText = event.data.number;
   };
 })();

@@ -30,6 +30,7 @@
 // });
 
 ///////////////////
+
 "use strict";
 
 const express = require("express");
@@ -57,6 +58,21 @@ wss.on("connection", function (ws) {
   ws.on("close", function () {
     console.log("stopping client interval");
     clearInterval(id);
+  });
+});
+
+let number = 0;
+
+wss.on("connection", function (ws) {
+  console.log("connected");
+
+  ws.on("message", (event) => {
+    console.log("stopping client interval");
+    if (event.type === "up") {
+      number++;
+    }
+
+    ws.send({ type: "update", number });
   });
 });
 
