@@ -3,48 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>Server stats</title>
-    <style>
-      table, td {
-        border: 1px solid #333;
-      }
-
-      thead {
-        background-color: #333;
-        color: #fff;
-      }
-    </style>
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body>
-    <h1>Server stats</h1>
-    <table>
-      <thead>
-        <tr>
-          <th colspan="2">Memory usage</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>RSS</td>
-          <td id="rss"></td>
-        </tr>
-        <tr>
-          <td>Heap total</td>
-          <td id="heapTotal"></td>
-        </tr>
-        <tr>
-          <td>Heap used</td>
-          <td id="heapUsed"></td>
-        </tr>
-        <tr>
-          <td>External</td>
-          <td id="external"></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h1>HELLO DO</h1>
-    <div id="count"></div>
-    <button id="count-btn">NUBER GO UP</button>
+    <div id="grid"></div>
     <script src="./client.js"></script>
   </body>
 </html>

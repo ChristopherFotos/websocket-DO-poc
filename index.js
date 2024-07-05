@@ -1,38 +1,3 @@
-// const express = require("express");
-// const path = require("path");
-// const { createServer } = require("http");
-
-// const WebSocket = require("ws");
-
-// const app = express();
-// app.use(express.static(path.join(__dirname, "/public")));
-
-// const server = createServer(app);
-// const wss = new WebSocket.Server({ server });
-
-// let number = 0;
-
-// wss.on("connection", function (ws) {
-//   console.log("connected");
-
-//   ws.on("message", (event) => {
-//     console.log("stopping client interval");
-//     if (event.type === "up") {
-//       number++;
-//     }
-
-//     ws.send({ type: "update", number });
-//   });
-// });
-
-// server.listen(8080, function () {
-//   console.log("Listening on http://0.0.0.0:8080");
-// });
-
-///////////////////
-
-"use strict";
-
 const express = require("express");
 const path = require("path");
 const { createServer } = require("http");
@@ -45,40 +10,38 @@ app.use(express.static(path.join(__dirname, "/public")));
 const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 
-wss.on("connection", function (ws) {
-  const id = setInterval(function () {
-    ws.send(JSON.stringify(process.memoryUsage()), function () {
-      //
-      // Ignore errors.
-      //
-    });
-  }, 100);
-  console.log("started client interval");
+// let number = 0;
 
-  ws.on("close", function () {
-    console.log("stopping client interval");
-    clearInterval(id);
-  });
-});
+// wss.on("connection", function (ws) {
+//   console.log("connected");
 
-let number = 0;
+//   ws.on("message", (event) => {
+//     const stringEvent = event.toString();
 
-wss.on("connection", function (ws) {
-  console.log("connected");
+//     const data = JSON.parse(stringEvent);
 
-  ws.on("message", (event, isBinary) => {
+//     if (data.type === "up") {
+//       number++;
+//       console.log("number", number);
+//     }
+
+//     ws.send(JSON.stringify({ type: "update", number }));
+//   });
+// });
+
+wss.on("connection", (ws) => {
+  console.log("Someone has connected");
+  ws.on("message", (event) => {
     const stringEvent = event.toString();
-
-    console.log("*********** DATA: ", stringEvent);
-
     const data = JSON.parse(stringEvent);
 
-    if (data.type === "up") {
-      number++;
-      console.log("number", number);
-    }
+    console.log("MESSAGE RECIEVED: ", data);
 
-    ws.send(JSON.stringify({ type: "update", number }));
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ type: "update", info: data }));
+      }
+    });
   });
 });
 
