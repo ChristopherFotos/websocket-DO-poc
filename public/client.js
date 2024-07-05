@@ -11,7 +11,7 @@ btn.addEventListener("click", () => {
 
 ws.onmessage = (event) => {
   console.log(event.data);
-  if (event.type === "update") count.innerText = event.data;
+  if (event.data.type === "update") count.innerText = event.data.number;
 };
 
 /////////////

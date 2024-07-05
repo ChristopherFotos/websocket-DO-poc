@@ -21,7 +21,7 @@ wss.on("connection", function (ws) {
       number++;
     }
 
-    ws.send(number);
+    ws.send({ type: "update", number });
   });
 });
 
