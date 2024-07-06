@@ -27,8 +27,9 @@ window.addEventListener("touchmove", (e) => {
 
   ws.send(
     JSON.stringify({
-      type: "debugTouch",
-      event: JSON.stringify(e.touches),
+      type: "draw",
+      co: element.dataset.coordinates,
+      state: element.dataset.state,
     })
   );
 });
