@@ -15,6 +15,17 @@ const mouseState = { drawing: false };
 const startDrawEvents = ["mousedown", "touchstart"];
 const stopDrawEvents = ["mouseup", "touchend"];
 
+window.addEventListener("touchmove", (e) => {
+  const element = document.elementFromPoint(
+    e.touches[0].clientX,
+    e.touches[0].clientY
+  );
+
+  element.dataset.state > 0
+    ? (element.dataset.state = 0)
+    : (element.dataset.state = 1);
+});
+
 // Change mouseState.drawing to true when mouse goes down or touch is detected
 startDrawEvents.forEach((startDrawEvent) =>
   document.addEventListener(startDrawEvent, () => {
