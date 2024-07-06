@@ -9,21 +9,25 @@ body {
 }
 
 .cell {
-    border: 1px solid black;
-    background-color: grey;
-    height:20px;
+    transition: all 0.1s ease-in-out;
+    background-color: #101010;
+    box-shadow: inset 0px 0px 1px 0px rgba(48, 50, 58, 0.3);
+    border-radius: 100px;
+    height: 20px;
     width: 20px;
+    border: 1px solid #191919;
+    margin: 2px;
     display: inline-block
 }
 
 .cell[data-state="1"] {
-    /* box-shadow: inset -10px 10px 26px -14px rgba(180, 15, 15, 0.8);
-    box-shadow: inset 10px -10px 26px -14px rgba(180, 15, 15, 0.8); */
-    background-color: red;
+    background-color: #D3FFF3;
+    box-shadow: 3px 0px 40px 0px rgba(211,255,243,1);
+    z-index: 10;
 }
 
 #grid {
-
-    position: relative;
-    margin: 0 auto
+    /* position: relative; */
+    margin: 10% auto;
+    width: 40%
 }

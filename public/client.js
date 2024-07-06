@@ -1,25 +1,10 @@
-// // TEST CODE
 const protocol = window.location.protocol.includes("https") ? "wss" : "ws";
 const ws = new WebSocket(`${protocol}://${location.host}`);
 
-// const btn = document.getElementById("count-btn");
-// const count = document.getElementById("count");
-
-// btn.addEventListener("click", () => {
-//   ws.send(JSON.stringify({ type: "up" }));
-// });
-
-// ws.onmessage = function (event) {
-//   const data = JSON.parse(event.data);
-//   console.log(event.data);
-
-//   if (data.type && data.type === "update") count.innerText = data.number;
-// };
-
 const grid = document.getElementById("grid");
 const gridSize = {
-  height: 100,
-  width: 100,
+  height: 40,
+  width: 25,
 };
 
 const rows = [];
