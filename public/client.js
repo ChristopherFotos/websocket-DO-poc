@@ -24,6 +24,13 @@ window.addEventListener("touchmove", (e) => {
   element.dataset.state > 0
     ? (element.dataset.state = 0)
     : (element.dataset.state = 1);
+
+  ws.send(
+    JSON.stringify({
+      type: "debugTouch",
+      event: JSON.stringify(e.touches),
+    })
+  );
 });
 
 // Change mouseState.drawing to true when mouse goes down or touch is detected
@@ -106,6 +113,8 @@ ws.onmessage = (event) => {
   console.log("UPDATE FROM ws: ", info);
   info.co = JSON.parse(info.info.co);
   info.co = JSON.parse(info.info.co);
+
+  console.log(info);
 
   rows[info.co.y][info.co.x].dataset.state = info.info.state;
 };
