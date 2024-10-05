@@ -1,6 +1,8 @@
 const protocol = window.location.protocol.includes("https") ? "wss" : "ws";
 const ws = new WebSocket(`${protocol}://${location.host}`);
 
+console.log("IT DEPLOYED");
+
 const grid = document.getElementById("grid");
 const gridSize = {
   height: 40,
