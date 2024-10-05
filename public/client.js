@@ -16,10 +16,17 @@ const startDrawEvents = ["mousedown", "touchstart"];
 const stopDrawEvents = ["mouseup", "touchend"];
 
 window.addEventListener("touchmove", (e) => {
+  e.preventDefault();
   const element = document.elementFromPoint(
     e.touches[0].clientX,
     e.touches[0].clientY
   );
+
+  console.log("ELEMENT: ", element);
+  if (!element) {
+    console.log("UNDEFINED ELEMENT");
+    return;
+  }
 
   element.dataset.state > 0
     ? (element.dataset.state = 0)
@@ -27,7 +34,7 @@ window.addEventListener("touchmove", (e) => {
 
   ws.send(
     JSON.stringify({
-      type: "draw",
+      type: "touchdraw",
       co: element.dataset.coordinates,
       state: element.dataset.state,
     })
@@ -68,6 +75,7 @@ for (let i = 0; i < gridSize.height; i++) {
     const drawEvents = ["mouseenter", "click"];
     drawEvents.forEach((de) => {
       cell.addEventListener(de, () => {
+        console.log("FIRING EVENT:", de);
         // if the event is click, do this:
         if (de === "click") {
           cell.dataset.state > 0
@@ -112,10 +120,8 @@ ws.onmessage = (event) => {
   const strInfo = event.data.toString();
   const info = JSON.parse(strInfo);
   console.log("UPDATE FROM ws: ", info);
+  // info.info.co = JSON.parse(info.info.co);
   info.co = JSON.parse(info.info.co);
-  info.co = JSON.parse(info.info.co);
-
-  console.log(info);
 
   rows[info.co.y][info.co.x].dataset.state = info.info.state;
 };

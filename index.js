@@ -10,25 +10,6 @@ app.use(express.static(path.join(__dirname, "/public")));
 const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 
-// let number = 0;
-
-// wss.on("connection", function (ws) {
-//   console.log("connected");
-
-//   ws.on("message", (event) => {
-//     const stringEvent = event.toString();
-
-//     const data = JSON.parse(stringEvent);
-
-//     if (data.type === "up") {
-//       number++;
-//       console.log("number", number);
-//     }
-
-//     ws.send(JSON.stringify({ type: "update", number }));
-//   });
-// });
-
 wss.on("connection", (ws) => {
   console.log("Someone has connected");
   ws.on("message", (event) => {
@@ -37,6 +18,7 @@ wss.on("connection", (ws) => {
 
     console.log("MESSAGE RECIEVED: ", data);
 
+    // Send to all clients who are listening
     wss.clients.forEach(function each(client) {
       if (client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify({ type: "update", info: data }));
