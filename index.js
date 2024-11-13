@@ -2,7 +2,6 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const { createServer } = require("http");
-const bodyParser = require("body-parser");
 const handleChangesToMain = require("./changes-to-main");
 
 const WebSocket = require("ws");
