@@ -1,11 +1,15 @@
 const express = require("express");
 const path = require("path");
+const bodyParser = require("body-parser");
 const { createServer } = require("http");
+const bodyParser = require("body-parser");
+const handleChangesToMain = require("./changes-to-main");
 
 const WebSocket = require("ws");
 
 const app = express();
 app.use(express.static(path.join(__dirname, "/public")));
+app.post("/changes-to-main-branch", handleChangesToMain);
 
 const server = createServer(app);
 const wss = new WebSocket.Server({ server });

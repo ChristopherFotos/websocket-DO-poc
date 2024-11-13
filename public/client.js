@@ -50,7 +50,7 @@ startDrawEvents.forEach((startDrawEvent) =>
   })
 );
 
-// Change mouseState.drawing to false when mouse goes dup or touch ends
+// Change mouseState.drawing to false when mouse goes up or touch ends
 stopDrawEvents.forEach((stopDrawEvent) =>
   document.addEventListener(stopDrawEvent, () => {
     mouseState.drawing = false;
