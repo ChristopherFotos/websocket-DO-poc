@@ -1,8 +1,6 @@
 const { exec } = require("child_process");
 const crypto = require("crypto");
 
-// comment to test webhook
-
 const verifySignature = (req, secret) => {
   const signature = `sha256=${crypto
     .createHmac("sha256", secret)
@@ -22,7 +20,7 @@ const handleWebhook = (req, res) => {
 
   if (branch === "refs/heads/main") {
     exec(
-      "git pull && npm install && pm2 restart all",
+      "cd /root/websocket-DO-poc && git pull && npm install && pm2 restart all",
       (error, stdout, stderr) => {
         if (error) {
           console.error(`Error: ${error.message}`);
