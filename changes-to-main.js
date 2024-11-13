@@ -13,6 +13,7 @@ const verifySignature = (req, secret) => {
 };
 
 const handleWebhook = (req, res) => {
+  console.log("handling webhook");
   const secret = ".Uu=AZs1itJ|2&id8_}I~C~!3:Fpkt"; // Replace with env variable
   if (!verifySignature(req, secret)) {
     return res.status(403).send("Invalid signature");
