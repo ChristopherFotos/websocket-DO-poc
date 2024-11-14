@@ -1,6 +1,8 @@
 const { exec } = require("child_process");
 const crypto = require("crypto");
 
+// changes to webhook 10
+
 const verifySignature = (req, secret) => {
   const signature = `sha256=${crypto
     .createHmac("sha256", secret)
