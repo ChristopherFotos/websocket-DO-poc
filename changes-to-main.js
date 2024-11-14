@@ -1,12 +1,10 @@
 const { exec } = require("child_process");
 const crypto = require("crypto");
 
-// comment to test webhook 8
-
 const verifySignature = (req, secret) => {
   const signature = `sha256=${crypto
     .createHmac("sha256", secret)
-    .update(req.body)
+    .update(req.body) // Use raw body for signature verification
     .digest("hex")}`;
 
   return req.headers["x-hub-signature-256"] === signature;
@@ -15,11 +13,13 @@ const verifySignature = (req, secret) => {
 const handleWebhook = (req, res) => {
   console.log("handling webhook");
   const secret = ".Uu=AZs1itJ|2&id8_}I~C~!3:Fpkt"; // Replace with env variable
+
   if (!verifySignature(req, secret)) {
+    console.error("Invalid signature");
     return res.status(403).send("Invalid signature");
   }
 
-  const branch = req.body.ref;
+  const branch = req.body ? JSON.parse(req.body).ref : null;
 
   if (branch === "refs/heads/main") {
     exec(
@@ -29,8 +29,8 @@ const handleWebhook = (req, res) => {
           console.error(`Error: ${error.message}`);
           return res.status(500).send("Error updating app");
         }
-        console.log(`Output: ${stdout}`);
-        console.error(`Error Output: ${stderr}`);
+        console.log(`Git Pull Output: ${stdout}`);
+        console.error(`Git Pull Error Output: ${stderr}`);
         res.status(200).send("App updated successfully");
       }
     );
