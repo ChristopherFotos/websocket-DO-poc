@@ -6,7 +6,7 @@ const crypto = require("crypto");
 const verifySignature = (req, secret) => {
   const signature = `sha256=${crypto
     .createHmac("sha256", secret)
-    .update(JSON.stringify(req.body))
+    .update(req.body)
     .digest("hex")}`;
 
   return req.headers["x-hub-signature-256"] === signature;

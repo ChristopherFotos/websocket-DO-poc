@@ -7,6 +7,7 @@ const handleChangesToMain = require("./changes-to-main");
 const WebSocket = require("ws");
 
 const app = express();
+app.use("/webhook", express.raw({ type: "application/json" }));
 app.use(express.static(path.join(__dirname, "/public")));
 app.post("/changes-to-main-branch", handleChangesToMain);
 
