@@ -1,5 +1,4 @@
-const protocol = window.location.protocol.includes("https") ? "wss" : "ws";
-const ws = new WebSocket(`${protocol}://${location.host}`);
+const socket = io();
 
 console.log("IT DEPLOYED 22");
 
@@ -34,13 +33,11 @@ window.addEventListener("touchmove", (e) => {
     ? (element.dataset.state = 0)
     : (element.dataset.state = 1);
 
-  ws.send(
-    JSON.stringify({
-      type: "touchdraw",
-      co: element.dataset.coordinates,
-      state: element.dataset.state,
-    })
-  );
+  socket.emit("touchdraw", {
+    type: "touchdraw",
+    co: element.dataset.coordinates,
+    state: element.dataset.state,
+  });
 });
 
 // Change mouseState.drawing to true when mouse goes down or touch is detected
@@ -55,7 +52,6 @@ stopDrawEvents.forEach((stopDrawEvent) =>
   document.addEventListener(stopDrawEvent, () => {
     mouseState.drawing = false;
     console.log(mouseState);
-    // ws.send("draw");
   })
 );
 
@@ -84,13 +80,11 @@ for (let i = 0; i < gridSize.height; i++) {
             ? (cell.dataset.state = 0)
             : (cell.dataset.state = 1);
           // emit an event with info about the cell
-          ws.send(
-            JSON.stringify({
-              type: "draw",
-              co: cell.dataset.coordinates,
-              state: cell.dataset.state,
-            })
-          );
+          socket.emit("draw", {
+            type: "draw",
+            co: cell.dataset.coordinates,
+            state: cell.dataset.state,
+          });
         }
         // if the event is mouseenter and we're drawing, do this
         if (de === "mouseenter" && mouseState.drawing) {
@@ -98,13 +92,11 @@ for (let i = 0; i < gridSize.height; i++) {
             ? (cell.dataset.state = 0)
             : (cell.dataset.state = 1);
           // emit an event with info about the cell
-          ws.send(
-            JSON.stringify({
-              type: "draw",
-              co: cell.dataset.coordinates,
-              state: cell.dataset.state,
-            })
-          );
+          socket.emit("draw", {
+            type: "draw",
+            co: cell.dataset.coordinates,
+            state: cell.dataset.state,
+          });
         }
       });
     });
@@ -118,12 +110,9 @@ for (let i = 0; i < gridSize.height; i++) {
   rows.push(rowArray);
 }
 
-ws.onmessage = (event) => {
-  const strInfo = event.data.toString();
-  const info = JSON.parse(strInfo);
-  console.log("UPDATE FROM ws: ", info);
-  // info.info.co = JSON.parse(info.info.co);
-  info.co = JSON.parse(info.info.co);
+socket.on("update", (info) => {
+  console.log("UPDATE FROM SOCKET.IO: ", info);
+  info.co = JSON.parse(info.co);
 
-  rows[info.co.y][info.co.x].dataset.state = info.info.state;
-};
+  rows[info.co.y][info.co.x].dataset.state = info.state;
+});
